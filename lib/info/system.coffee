@@ -33,13 +33,13 @@ module.exports =
         resp = resp.split('\n')[1]
         args = resp.split ' '
         out.disk = args[0]
-        out.used = args[1]
-        out.total = args[2]
-        out.usedPercent = args[3]
+        out.used = args[1].replace 'G', 'GB'
+        out.total = args[2].replace 'G', 'GB'
+        out.usedPercent = args[3].replace '%', ''
         callback out
   
   getProcesses: (grep, callback) ->
-    exec "ps aux | grep " + grep + " | awk '{print $1,$2,$3,$4,$10,$11}'", (err, resp) ->
+    exec "ps aux | grep " + grep + " | awk '/!grep/ {print $1,$2,$3,$4,$10,$11}'", (err, resp) ->
       if err?
         callback {error: err}
       else
@@ -47,6 +47,8 @@ module.exports =
         resp = resp.split '\n'
         for proc in resp
           args = proc.split ' '
+          if args.length isnt 6
+            continue
           obj = {}
           obj.user = args[0]
           obj.pid = args[1]

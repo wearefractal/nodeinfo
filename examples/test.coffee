@@ -4,7 +4,6 @@ log = nodeinfo.log
 
 test = (caller, results) ->
   log.info caller.green + ': ' + results.stringify()
-  
 
 log.info 'Starting INFO tests'
   
@@ -19,3 +18,5 @@ nodeinfo.system.getMemoryUsage (results) -> test 'system.getMemoryUsage()', resu
 nodeinfo.system.getDiskUsage (results) -> test 'system.getDiskUsage()', results
 nodeinfo.system.getPlatform (results) -> test 'system.getPlatform()', results
 nodeinfo.system.getProcesses process.installPrefix, (results) -> test 'system.getProcesses()', results
+  
+nodeinfo.broadcast 8080
