@@ -12,7 +12,7 @@ nodeinfo.npm.getVersion (results) -> test 'npm.getVersion()', results
 nodeinfo.npm.getPackages (results) -> test 'npm.getPackages()', results
   
 nodeinfo.node.getVersion (results) -> test 'node.getVersion()', results
-#nodeinfo.node.getEnvironment (results) -> test 'node.getEnvironment()', results
+nodeinfo.node.getEnvironment (results) -> test 'node.getEnvironment()', results
 nodeinfo.node.getPrefix (results) -> test 'node.getPrefix()', results
   
 nodeinfo.system.getMemoryUsage (results) -> test 'system.getMemoryUsage()', results
