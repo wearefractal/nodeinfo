@@ -19,5 +19,7 @@ module.exports =
                 pack = line.split(' ')[1]
                 if pack?
                   pack = pack.split '@'
-                  packs.push {name: pack[0], version: pack[1]}
+                  name = pack[0]
+                  version = pack[1]
+                  packs.push {label: name + ' - ' + version, value: 'http://search.npmjs.org/#/' + name}
             callback packs
