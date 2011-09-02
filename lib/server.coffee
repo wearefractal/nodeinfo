@@ -20,40 +20,46 @@ module.exports =
     io = fusker.socket.listen server
     
     io.sockets.on 'connection', (socket) ->
-      fn = ->
-        out = {}
-
-        # Once again, this is HILARIOUS
-        system.getProcesses process.installPrefix, (results) -> 
-          out.system = {}
-          out.system.processes = results
-          
-          system.getDiskUsage (results) -> 
-            out.system.disk = results
-            
-            system.getMemoryUsage (results) ->
-              out.system.usage = results
-              socket.emit 'Heartbeat', out
                 
       module.exports.sendSystem socket
-      fn()
-      setTimeout fn, 7000
-      
+      module.exports.sendHeartbeat socket
+          
     if callback?
       callback server, io
         
+  sendHeartbeat: (socket) ->
+    out = {}
+    out.system = {}
+
+    # Once again, this is HILARIOUS
+    system.getProcesses process.installPrefix, (results) -> 
+      out.system.processes = results
+      
+      system.getDiskUsage (results) -> 
+        out.system.diskUsage = results
+        
+        system.getMemoryUsage (results) ->
+          out.system.memoryUsage = results
+          
+          system.getCPUUsage (results) ->
+            out.system.cpuUsage = results
+            socket.emit 'beat', out 
+            update = () -> module.exports.sendHeartbeat(socket) 
+            setTimeout(update, 2000)
+                      
   sendSystem: (socket) ->
     out = {}
-
+    out.npm = {}
+    out.node = {}
+    out.system = {}
+    
     # I could have used something here but this was just way too funny
     npm.getVersion (results) -> 
-      out.npm = {}
       out.npm.version = results
       npm.getPackages (results) -> 
         out.npm.packages = results
         
         node.getVersion (results) -> 
-          out.node = {}
           out.node.version = results
           
           node.getEnvironment (results) -> 
@@ -63,24 +69,16 @@ module.exports =
               out.node.location = results
                 
               system.getPlatform (results) -> 
-                out.system = {}
                 out.system.platform = results
                 
-                npm.getPackages (results) -> 
-                  out.npm.packages = results  
-                  socket.emit 'Start', out
-                      
-  sendHeartbeat: (socket) ->
-    out = {}
-
-    # Once again, this is HILARIOUS
-    system.getProcesses process.installPrefix, (results) -> 
-      out.system = {}
-      out.system.processes = results
-      
-      system.getDiskUsage (results) -> 
-        out.system.disk = results
-        
-        system.getMemoryUsage (results) ->
-          out.system.usage = results
-          socket.emit 'Heartbeat', out
+                system.getRAM (results) -> 
+                  out.system.ram = results
+                  
+                  system.getCPUs (results) -> 
+                    out.system.cpu = results
+                    
+                    npm.getPackages (results) -> 
+                      out.npm.packages = results  
+                      socket.emit 'start', out
+                      #update = () -> module.exports.sendSystem(socket) 
+                      #setTimeout(update, 60000)

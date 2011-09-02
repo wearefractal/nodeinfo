@@ -4,7 +4,7 @@ fs = require 'fs'
 
 module.exports = 
  
-  # Thanks to eldios some of the following code! - http://github.com/eldios
+  # Thanks to eldios for some of the following code! - http://github.com/eldios
   getMemoryUsage: (callback) -> 
     fs.readFile '/proc/meminfo', (err, data) ->
       if err?
@@ -33,11 +33,36 @@ module.exports =
         resp = resp.split('\n')[1]
         args = resp.split ' '
         out.disk = args[0]
-        out.used = args[1].replace 'G', 'GB'
-        out.total = args[2].replace 'G', 'GB'
-        out.usedPercent = args[3].replace '%', ''
+        out.used = parseInt(args[1].replace 'G', '')
+        out.total = parseInt(args[2].replace 'G', '')
+        out.free = Math.round(out.total - out.used)
+        out.usedPercent = parseInt(args[3].replace '%', '')
         callback out
   
+  getCPUs: (callback) ->
+    exec "cat /proc/cpuinfo | grep 'model name'", (err, resp) ->
+      if err?
+        callback {error: err}
+      else
+        resp = resp.split '\n'
+        callback {count: resp.length-2, name: resp[0].split(':')[1]}
+        
+  getCPUUsage: (callback) ->
+    exec "top -b -n 1 | awk '/Cpu/ {print $2}'", (err, resp) ->
+      if err?
+        callback {error: err}
+      else
+        callback {usedRatio: parseInt(resp.split('%')[0])}       
+          
+  getRAM: (callback) ->
+    exec "free -m | awk '{print $2}'", (err, resp) ->
+      if err?
+        callback {error: err}
+      else
+        resp = resp.split('\n')[1]
+        size = Math.round(parseInt(resp) / 1000) + 'GB'
+        callback size
+          
   getProcesses: (grep, callback) ->
     exec "ps aux | grep " + grep + " | awk '/!grep/ {print $1,$2,$3,$4,$10,$11}'", (err, resp) ->
       if err?
@@ -59,5 +84,10 @@ module.exports =
           out.push obj
         callback out
           
-  getPlatform: (callback) -> callback process.platform
+  getPlatform: (callback) ->
+    exec "uname -a", (err, resp) ->
+      if err?
+        callback {error: err}
+      else
+        callback resp
   

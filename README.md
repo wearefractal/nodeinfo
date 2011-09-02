@@ -9,9 +9,8 @@ To install nodeinfo, use [npm](http://github.com/isaacs/npm):
 
 ## Usage
 
-```info = require('nodeinfo')```
-```info.start(port);```
-```info.stop();```
+```info = require('nodeinfo');```
+```info.broadcast(port);```
 
 ## Examples
 
