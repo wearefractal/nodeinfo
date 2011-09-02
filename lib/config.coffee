@@ -1,2 +1,2 @@
 module.exports =
-  something: 'nothing here yet'
+  store_logs: true

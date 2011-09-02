@@ -1,19 +1,21 @@
-**Nothing here yet**
+**Displays NodeJS information - similar to phpinfo()**
 
 
 ## Installation
     
-To install Protege, use [npm](http://github.com/isaacs/npm):
+To install nodeinfo, use [npm](http://github.com/isaacs/npm):
 
-        $ npm install -g APPNAME
+        $ npm install -g nodeinfo
 
 ## Usage
 
-Nothing here yet
+```info = require('nodeinfo')```
+```info.start(port);```
+```info.stop();```
 
 ## Examples
 
-You can view further examples in the [example folder.](https://github.com/Contra/APPNAME/tree/master/examples)
+You can view further examples in the [example folder.](https://github.com/Contra/nodeinfo/tree/master/examples)
 
 ## Contributors
 
