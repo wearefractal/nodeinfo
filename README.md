@@ -1,16 +1,49 @@
-**Displays NodeJS information - similar to phpinfo()**
+**Library for accessing or displaying NodeJS/NPM/System information - kind of like phpinfo() but not a piece of shit**
 
 
 ## Installation
     
 To install nodeinfo, use [npm](http://github.com/isaacs/npm):
 
-        $ npm install -g nodeinfo
+        $ npm install nodeinfo
 
-## Usage
+## Web UI Usage
 
 ```info = require('nodeinfo');```
 ```info.broadcast(port);```
+
+## Library Usage
+
+```
+info = require('nodeinfo');
+
+info.node.getVersion(callback);
+info.node.getEnvironment(callback);
+info.node.getPrefix(callback);
+
+info.npm.getVersion(callback);
+info.npm.getPackages(callback);
+
+info.process.getUptime(callback);
+info.process.getUser(callback);
+info.process.getMemoryUsage(callback);
+info.process.getPid(callback);
+info.process.getTitle(callback);
+info.process.getPermissions(callback);
+
+info.system.getMemoryUsage(callback);
+info.system.getDiskUsage(callback);
+info.system.getCPUUsage(callback);
+info.system.getCPUs(callback);
+info.system.getRAM(callback);
+info.system.getProcesses(grep, callback);
+info.system.getPlatform(callback);
+
+//All callbacks should look like this
+callback = function (result){
+  console.log('yey 4 internetz - ' + result);
+};
+```
 
 ## Examples
 
