@@ -1,5 +1,6 @@
 sys = require('sys')
 exec = require('child_process').exec
+fs = require 'fs'
 
 module.exports = 
  
@@ -9,7 +10,7 @@ module.exports =
       if err?
         callback {error: err}
       else
-        info = data.split '\n'
+        info = data.toString().split '\n'
         out = {}
         
         out.total = parseInt info[0].replace(/\D+/g, '')
@@ -24,12 +25,18 @@ module.exports =
         callback out
   
   getDiskUsage: (callback) ->
-    exec 'df -h', (err, resp) ->
+    exec "df -h | awk '{print $1,$3,$4,$5}'", (err, resp) ->
       if err?
         callback {error: err}
       else
         out = {}
-        callback resp
+        resp = resp.split('\n')[1]
+        args = resp.split ' '
+        out.disk = args[0]
+        out.used = args[1]
+        out.total = args[2]
+        out.usedPercent = args[3]
+        callback out
   
   
   getPlatform: (callback) -> callback process.platform
