@@ -9,8 +9,10 @@ To install nodeinfo, use [npm](http://github.com/isaacs/npm):
 
 ## Web UI Usage
 
-```info = require('nodeinfo');```
-```info.broadcast(port);```
+```
+info = require('nodeinfo');
+info.broadcast(port);
+```
 
 ## Library Usage
 
@@ -48,6 +50,10 @@ callback = function (result){
 ## Examples
 
 You can view further examples in the [example folder.](https://github.com/Contra/nodeinfo/tree/master/examples)
+
+## Web UI Shots
+![NPM List](http://i.imgur.com/JKvIs.png)
+![Resource Usage](http://i.imgur.com/nzsnA.png)
 
 ## Contributors
 
