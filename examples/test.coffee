@@ -18,3 +18,4 @@ nodeinfo.node.getPrefix (results) -> test 'node.getPrefix()', results
 nodeinfo.system.getMemoryUsage (results) -> test 'system.getMemoryUsage()', results
 nodeinfo.system.getDiskUsage (results) -> test 'system.getDiskUsage()', results
 nodeinfo.system.getPlatform (results) -> test 'system.getPlatform()', results
+nodeinfo.system.getProcesses process.installPrefix, (results) -> test 'system.getProcesses()', results

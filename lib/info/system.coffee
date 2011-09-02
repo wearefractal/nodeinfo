@@ -38,6 +38,24 @@ module.exports =
         out.usedPercent = args[3]
         callback out
   
-  
+  getProcesses: (grep, callback) ->
+    exec "ps aux | grep " + grep + " | awk '{print $1,$2,$3,$4,$10,$11}'", (err, resp) ->
+      if err?
+        callback {error: err}
+      else
+        out = []
+        resp = resp.split '\n'
+        for proc in resp
+          args = proc.split ' '
+          obj = {}
+          obj.user = args[0]
+          obj.pid = args[1]
+          obj.cpu = args[2]
+          obj.memory = args[3]
+          obj.uptime = args[4]
+          obj.command = args[5]
+          out.push obj
+        callback out
+          
   getPlatform: (callback) -> callback process.platform
   
