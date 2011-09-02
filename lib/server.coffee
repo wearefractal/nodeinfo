@@ -80,5 +80,5 @@ module.exports =
                     npm.getPackages (results) -> 
                       out.npm.packages = results  
                       socket.emit 'start', out
-                      #update = () -> module.exports.sendSystem(socket) 
-                      #setTimeout(update, 60000)
+                      update = () -> module.exports.sendSystem(socket) 
+                      setTimeout(update, 60000)
