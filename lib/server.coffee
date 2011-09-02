@@ -22,8 +22,13 @@ module.exports =
     io.sockets.on 'connection', (socket) ->
                 
       module.exports.sendSystem socket
-      module.exports.sendHeartbeat socket
+        
+      update = () -> 
+        module.exports.sendHeartbeat(socket) 
+        setTimeout(update, 5000)
           
+      update()
+             
     if callback?
       callback server, io
         
@@ -44,8 +49,6 @@ module.exports =
           system.getCPUUsage (results) ->
             out.system.cpuUsage = results
             socket.emit 'beat', out 
-            update = () -> module.exports.sendHeartbeat(socket) 
-            setTimeout(update, 2000)
                       
   sendSystem: (socket) ->
     out = {}
@@ -80,5 +83,3 @@ module.exports =
                     npm.getPackages (results) -> 
                       out.npm.packages = results  
                       socket.emit 'start', out
-                      update = () -> module.exports.sendSystem(socket) 
-                      setTimeout(update, 60000)

@@ -74,6 +74,8 @@ module.exports =
           args = proc.split ' '
           if args.length isnt 6
             continue
+          out.push [args[1], args[2], args[3], args[5], args[4], args[0]]
+          ###
           obj = {}
           obj.user = args[0]
           obj.pid = args[1]
@@ -82,6 +84,7 @@ module.exports =
           obj.uptime = args[4]
           obj.command = args[5]
           out.push obj
+          ###
         callback out
           
   getPlatform: (callback) ->
