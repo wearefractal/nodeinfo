@@ -41,8 +41,6 @@ module.exports =
     idle = idle / os.cpus().length 
     
     cpuPerc = 100 - ((idle / total) * 100)
-    # cpuPerc = Math.round(cpuPerc * 1000) / 1000
-    
     
     callback {usedRatio: cpuPerc}       
           
