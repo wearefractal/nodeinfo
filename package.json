@@ -1,7 +1,7 @@
 {
    "name":"nodeinfo",
    "description":"Displays NodeJS information - similar to phpinfo()",
-   "version":"0.0.4",
+   "version":"0.0.5",
    "homepage":"http://github.com/Contra/nodeinfo",
    "repository":"git://github.com/Contra/nodeinfo.git",
    "author":"Contra <contra@australia.edu> (http://wearefractal.com/)",

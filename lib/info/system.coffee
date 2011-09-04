@@ -6,15 +6,8 @@ os = require 'os'
 module.exports = 
  
   getMemoryUsage: (callback) -> 
-    out = {}
-    out.total = os.totalmem()
-    out.free = os.freemem()
-    out.used = out.total - out.free
-    
-    out.freeRatio = Math.round((out.free / out.total) * 100)
-    out.usedRatio = Math.round((out.used / out.total) * 100)
-    
-    callback out
+    memPerc = 100 - ((os.freemem() / os.totalmem()) * 100)
+    callback {usedRatio: memPerc}
       
   getUptime: (callback) ->
     callback os.uptime()
@@ -39,22 +32,29 @@ module.exports =
     callback {count: cpus.length, name: cpus[0].model}
         
   getCPUUsage: (callback) ->
-    exec "top -b -n 1 | awk '/Cpu/ {print $2, $3}'", (err, resp) ->
-      if err?
-        callback {error: err}
-      else
-        percs = resp.split ' '
-        userPerc = parseFloat percs[0]
-        sysPerc = parseFloat percs[1]
-        totalPerc = userPerc + sysPerc
-        callback {usedRatio: totalPerc}       
+    total = 0;
+    idle = 0;
+    for t in os.cpus()
+      total += t.times.user + t.times.nice + t.times.sys + t.times.idle
+      idle += t.times.idle
+    total = total / os.cpus().length  
+    idle = idle / os.cpus().length 
+    
+    cpuPerc = 100 - ((idle / total) * 100)
+    # cpuPerc = Math.round(cpuPerc * 1000) / 1000
+    
+    
+    callback {usedRatio: cpuPerc}       
           
   getRAM: (callback) ->
     size = Math.round(os.totalmem() / 1000000000) + 'GB'
     callback size
   
   getLoad: (callback) ->
-    callback os.loadavg()[0]*100
+    load = os.loadavg()[0]*100
+    if load > 100
+      load = load / 10
+    callback load
               
   getProcesses: (grep, callback) ->
     # exec "ps aux | grep " + grep + " | awk '/!grep/ {print $1,$2,$3,$4,$10,$11}'", (err, resp) ->
