@@ -5,7 +5,8 @@
 <link type="text/css" href="http://cdn.wijmo.com/jquery.wijmo-open.1.4.1.css" rel="stylesheet" />
 <script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery/jquery-1.6.2.min.js"></script>
 <script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery.ui/1.8.16/jquery-ui.min.js"></script>
-<script type="text/javascript" src="js/excanvas.js"></script>
+<script type="text/javascript" src="js/excanvas.min.js"></script>
+<script type="text/javascript" src="js/jquery.flot.min.js"></script>
 <script type="text/javascript" src="js/jquery.jqChart.min.js"></script>
 <script type="text/javascript" src="js/jquery.dataTables.min.js"></script>
 <script type="text/javascript" src="http://cdn.wijmo.com/jquery.wijmo-open.1.4.1.min.js"></script>
@@ -30,10 +31,10 @@
 	<div id="npminfo">
 	</div>
 	<div id="meminfo">
-	    <div id="mem_chart" style="width: 100%; height: 40%;"></div>
-	    <div id="cpu_chart" style="width: 100%; height: 40%;"></div>
+	    <center><div id="mem_chart" style="width: 90%; height: 80%;"></div></center>
 	</div>
 	<div id="procinfo">
+	    <table width="100%" cellpadding="0" cellspacing="0" border="0" class="display" id="processes"></table>
 	</div>
 </div>
 </body>

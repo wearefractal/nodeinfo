@@ -1,27 +1,24 @@
-sys = require('sys')
+sys = require 'sys'
 exec = require('child_process').exec
 fs = require 'fs'
+os = require 'os'
 
 module.exports = 
  
-  # Thanks to eldios for some of the following code! - http://github.com/eldios
   getMemoryUsage: (callback) -> 
-    exec "top -b -n 1 | awk '/Mem/ {print $2, $3, $4, $5, $6}'", (err, resp) ->
-      if err?
-        callback {error: err}
-      else
-        info = resp.split ','
-        out = {}
-        
-        out.total = parseInt info[0].trim()
-        out.used = parseInt info[1].trim()
-        out.free = parseInt info[2].trim()
-        
-        out.freeRatio = Math.round out.free / out.total * 100
-        out.usedRatio = Math.round out.used / out.total * 100
-        
-        callback out
-  
+    out = {}
+    out.total = os.totalmem()
+    out.free = os.freemem()
+    out.used = out.total - out.free
+    
+    out.freeRatio = Math.round((out.free / out.total) * 100)
+    out.usedRatio = Math.round((out.used / out.total) * 100)
+    
+    callback out
+      
+  getUptime: (callback) ->
+    callback os.uptime()
+      
   getDiskUsage: (callback) ->
     exec "df -h | awk '{print $1,$3,$4,$5}'", (err, resp) ->
       if err?
@@ -31,19 +28,15 @@ module.exports =
         resp = resp.split('\n')[1]
         args = resp.split ' '
         out.disk = args[0]
-        out.used = parseInt(args[1].replace 'G', '')
-        out.total = parseInt(args[2].replace 'G', '')
+        out.used = Math.round(args[1].replace 'G', '')
+        out.total = Math.round(args[2].replace 'G', '')
         out.free = Math.round(out.total - out.used)
-        out.usedPercent = parseInt(args[3].replace '%', '')
+        out.usedPercent = Math.round(args[3].replace '%', '')
         callback out
   
   getCPUs: (callback) ->
-    exec "cat /proc/cpuinfo | grep 'model name'", (err, resp) ->
-      if err?
-        callback {error: err}
-      else
-        resp = resp.split '\n'
-        callback {count: resp.length-2, name: resp[0].split(':')[1]}
+    cpus = os.cpus()
+    callback {count: cpus.length, name: cpus[0].model}
         
   getCPUUsage: (callback) ->
     exec "top -b -n 1 | awk '/Cpu/ {print $2, $3}'", (err, resp) ->
@@ -57,16 +50,15 @@ module.exports =
         callback {usedRatio: totalPerc}       
           
   getRAM: (callback) ->
-    exec "free -m | awk '{print $2}'", (err, resp) ->
-      if err?
-        callback {error: err}
-      else
-        resp = resp.split('\n')[1]
-        size = Math.round(parseInt(resp) / 1000) + 'GB'
-        callback size
-          
+    size = Math.round(os.totalmem() / 1000000000) + 'GB'
+    callback size
+  
+  getLoad: (callback) ->
+    callback os.loadavg()[0]*100
+              
   getProcesses: (grep, callback) ->
-    exec "ps aux | grep " + grep + " | awk '/!grep/ {print $1,$2,$3,$4,$10,$11}'", (err, resp) ->
+    # exec "ps aux | grep " + grep + " | awk '/!grep/ {print $1,$2,$3,$4,$10,$11}'", (err, resp) ->
+    exec "ps aux | awk '!/PID/ {print $1,$2,$3,$4,$10,$11}'", (err, resp) ->
       if err?
         callback {error: err}
       else
@@ -90,9 +82,5 @@ module.exports =
         callback out
           
   getPlatform: (callback) ->
-    exec "uname -a", (err, resp) ->
-      if err?
-        callback {error: err}
-      else
-        callback resp
+    callback os.type() + ' ' + os.release()
   

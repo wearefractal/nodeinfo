@@ -20,15 +20,17 @@ module.exports =
     io = fusker.socket.listen server
     
     io.sockets.on 'connection', (socket) ->
-                
-      module.exports.sendSystem socket
-        
-      update = () -> 
-        module.exports.sendHeartbeat(socket) 
-        setTimeout(update, 5000)
+      beat = () -> 
+        module.exports.sendHeartbeat  socket
+        setTimeout beat, 1000
           
-      update()
-             
+      sys = () -> 
+        module.exports.sendSystem socket
+        setTimeout sys, 5000   
+          
+      sys()
+      beat()  
+            
     if callback?
       callback server, io
         
@@ -37,17 +39,18 @@ module.exports =
     out.system = {}
 
     # Once again, this is HILARIOUS
+    # system.getProcesses '', (results) -> 
     system.getProcesses process.installPrefix, (results) -> 
       out.system.processes = results
-      
-      system.getDiskUsage (results) -> 
-        out.system.diskUsage = results
         
-        system.getMemoryUsage (results) ->
-          out.system.memoryUsage = results
+      system.getMemoryUsage (results) ->
+        out.system.memoryUsage = results
+        
+        system.getCPUUsage (results) ->
+          out.system.cpuUsage = results
           
-          system.getCPUUsage (results) ->
-            out.system.cpuUsage = results
+          system.getLoad (results) ->
+            out.system.load = results
             socket.emit 'beat', out 
                       
   sendSystem: (socket) ->
@@ -59,6 +62,7 @@ module.exports =
     # I could have used something here but this was just way too funny
     npm.getVersion (results) -> 
       out.npm.version = results
+      
       npm.getPackages (results) -> 
         out.npm.packages = results
         
@@ -79,7 +83,13 @@ module.exports =
                   
                   system.getCPUs (results) -> 
                     out.system.cpu = results
-                    
-                    npm.getPackages (results) -> 
-                      out.npm.packages = results  
-                      socket.emit 'start', out
+                          
+                    system.getDiskUsage (results) -> 
+                      out.system.diskUsage = results
+                      
+                      system.getUptime (results) -> 
+                        out.system.uptime = results
+                        
+                        npm.getPackages (results) -> 
+                          out.npm.packages = results  
+                          socket.emit 'start', out
