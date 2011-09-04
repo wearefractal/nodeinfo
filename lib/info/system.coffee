@@ -6,21 +6,19 @@ module.exports =
  
   # Thanks to eldios for some of the following code! - http://github.com/eldios
   getMemoryUsage: (callback) -> 
-    fs.readFile '/proc/meminfo', (err, data) ->
+    exec "top -b -n 1 | awk '/Mem/ {print $2, $3, $4, $5, $6}'", (err, resp) ->
       if err?
         callback {error: err}
       else
-        info = data.toString().split '\n'
+        info = resp.split ','
         out = {}
         
-        out.total = parseInt info[0].replace(/\D+/g, '')
-        out.free = parseInt info[1].replace(/\D+/g, '')
-        out.cached = parseInt info[3].replace(/\D+/g, '')
-        out.used = out.total - out.free
+        out.total = parseInt info[0].trim()
+        out.used = parseInt info[1].trim()
+        out.free = parseInt info[2].trim()
         
         out.freeRatio = Math.round out.free / out.total * 100
         out.usedRatio = Math.round out.used / out.total * 100
-        out.cachedRatio = Math.round out.cached / out.total * 100
         
         callback out
   
@@ -48,11 +46,15 @@ module.exports =
         callback {count: resp.length-2, name: resp[0].split(':')[1]}
         
   getCPUUsage: (callback) ->
-    exec "top -b -n 1 | awk '/Cpu/ {print $2}'", (err, resp) ->
+    exec "top -b -n 1 | awk '/Cpu/ {print $2, $3}'", (err, resp) ->
       if err?
         callback {error: err}
       else
-        callback {usedRatio: parseInt(resp.split('%')[0])}       
+        percs = resp.split ' '
+        userPerc = parseFloat percs[0]
+        sysPerc = parseFloat percs[1]
+        totalPerc = userPerc + sysPerc
+        callback {usedRatio: totalPerc}       
           
   getRAM: (callback) ->
     exec "free -m | awk '{print $2}'", (err, resp) ->
