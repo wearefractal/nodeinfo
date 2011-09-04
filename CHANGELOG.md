@@ -1,3 +1,12 @@
+0.0.5 / September 3, 2011
+==================
+  * Accuracy fixes on a lot of the system stuff
+  * OPTIMIZE EVERYTHING
+
+0.0.4 / September 3, 2011
+==================
+  * Second UI overhaul
+
 0.0.3 / September 2, 2011
 ==================
   * Added graphcs for resource usage
