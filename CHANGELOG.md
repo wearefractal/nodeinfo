@@ -1,3 +1,8 @@
+0.0.6 / September 3, 2011
+==================
+  * Optimize NPM package listing
+  * Change project ownership from Contra to Fractal
+  
 0.0.5 / September 3, 2011
 ==================
   * Accuracy fixes on a lot of the system stuff

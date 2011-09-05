@@ -1,10 +1,10 @@
 {
    "name":"nodeinfo",
-   "description":"Displays NodeJS information - similar to phpinfo()",
-   "version":"0.0.5",
-   "homepage":"http://github.com/Contra/nodeinfo",
-   "repository":"git://github.com/Contra/nodeinfo.git",
-   "author":"Contra <contra@australia.edu> (http://wearefractal.com/)",
+   "description":"Displays NodeJS information",
+   "version":"0.0.6",
+   "homepage":"http://github.com/wearefractal/nodeinfo",
+   "repository":"git://github.com/wearefractal/nodeinfo.git",
+   "author":"Fracta; <contact@wearefractal.com> (http://wearefractal.com/)",
    "main":"./lib/main.coffee",
    
    "dependencies":{
@@ -20,7 +20,7 @@
    "licenses":[
       {
          "type":"MIT",
-         "url":"http://github.com/Contra/nodeinfo/raw/master/LICENSE"
+         "url":"http://github.com/wearefractal/nodeinfo/raw/master/LICENSE"
       }
    ]
 }

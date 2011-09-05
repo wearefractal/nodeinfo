@@ -49,11 +49,7 @@ callback = function (result){
 
 ## Examples
 
-You can view further examples in the [example folder.](https://github.com/Contra/nodeinfo/tree/master/examples)
-
-## Web UI Shots
-![NPM List](http://i.imgur.com/JKvIs.png)
-![Resource Usage](http://i.imgur.com/nzsnA.png)
+You can view further examples in the [example folder.](https://github.com/wearefractal/nodeinfo/tree/master/examples)
 
 ## Contributors
 
@@ -63,7 +59,7 @@ You can view further examples in the [example folder.](https://github.com/Contra
 
 (MIT License)
 
-Copyright (c) 2011 Contra <contra@australia.edu>
+Copyright (c) 2011 Fractal <contact@wearefractal.com>
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the
