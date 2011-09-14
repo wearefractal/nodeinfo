@@ -1,3 +1,7 @@
+0.0.7 / September 13, 2011
+==================
+  * Optimize code
+
 0.0.6 / September 3, 2011
 ==================
   * Optimize NPM package listing

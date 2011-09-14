@@ -9,9 +9,7 @@ system = require './info/system'
 
 module.exports = 
   broadcast: (port, callback) ->
-    
     fusker.config.dir = path.normalize(__dirname + '/client/')
-    logger.debug fusker.config.dir
     fusker.config.banLength = 0
     fusker.config.verbose = false
     fusker.config.silent = true
@@ -25,8 +23,7 @@ module.exports =
         setTimeout beat, 1000
           
       sys = () -> 
-        module.exports.sendSystem socket
-        setTimeout sys, 5000   
+        module.exports.sendSystem socket 
           
       sys()
       beat()  
@@ -39,19 +36,16 @@ module.exports =
     out.system = {}
 
     # Once again, this is HILARIOUS
-    # system.getProcesses '', (results) -> 
-    system.getProcesses process.installPrefix, (results) -> 
-      out.system.processes = results
         
-      system.getMemoryUsage (results) ->
-        out.system.memoryUsage = results
+    system.getMemoryUsage (results) ->
+      out.system.memoryUsage = results
+      
+      system.getCPUUsage (results) ->
+        out.system.cpuUsage = results
         
-        system.getCPUUsage (results) ->
-          out.system.cpuUsage = results
-          
-          system.getLoad (results) ->
-            out.system.load = results
-            socket.emit 'beat', out 
+        system.getLoad (results) ->
+          out.system.load = results
+          socket.emit 'beat', out 
                       
   sendSystem: (socket) ->
     out = {}
@@ -60,36 +54,39 @@ module.exports =
     out.system = {}
     
     # I could have used something here but this was just way too funny
-    npm.getVersion (results) -> 
-      out.npm.version = results
+    system.getProcesses process.installPrefix, (results) -> 
+      out.system.processes = results
       
-      npm.getPackages (results) -> 
-        out.npm.packages = results
+      npm.getVersion (results) -> 
+        out.npm.version = results
         
-        node.getVersion (results) -> 
-          out.node.version = results
+        npm.getPackages (results) -> 
+          out.npm.packages = results
           
-          node.getEnvironment (results) -> 
-            out.node.environment = results
+          node.getVersion (results) -> 
+            out.node.version = results
             
-            node.getPrefix (results) -> 
-              out.node.location = results
-                
-              system.getPlatform (results) -> 
-                out.system.platform = results
-                
-                system.getRAM (results) -> 
-                  out.system.ram = results
+            node.getEnvironment (results) -> 
+              out.node.environment = results
+              
+              node.getPrefix (results) -> 
+                out.node.location = results
                   
-                  system.getCPUs (results) -> 
-                    out.system.cpu = results
-                          
-                    system.getDiskUsage (results) -> 
-                      out.system.diskUsage = results
-                      
-                      system.getUptime (results) -> 
-                        out.system.uptime = results
+                system.getPlatform (results) -> 
+                  out.system.platform = results
+                  
+                  system.getRAM (results) -> 
+                    out.system.ram = results
+                    
+                    system.getCPUs (results) -> 
+                      out.system.cpu = results
+                            
+                      system.getDiskUsage (results) -> 
+                        out.system.diskUsage = results
                         
-                        npm.getPackages (results) -> 
-                          out.npm.packages = results  
-                          socket.emit 'start', out
+                        system.getUptime (results) -> 
+                          out.system.uptime = results
+                          
+                          npm.getPackages (results) -> 
+                            out.npm.packages = results  
+                            socket.emit 'start', out
