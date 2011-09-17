@@ -9,7 +9,6 @@
    
    "dependencies":{
       "coffee-script":"*",
-      "colors":"*",
       "protege":"*",
       "fusker":"*"
    },
