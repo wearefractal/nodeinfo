@@ -1,8 +1,13 @@
-npm = require 'npm'
 exec = require('child_process').exec
 
 module.exports = 
-  getVersion: (callback) -> callback npm.version
+  getVersion: (callback) -> 
+    exec 'npm -v', (err, resp) ->
+        if err?
+          callback {error: err}
+        else
+          callback resp
+            
   getPackages: (callback) ->
     exec 'npm ls -g', (err, resp) ->
       if err?

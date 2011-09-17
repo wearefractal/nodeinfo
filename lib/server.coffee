@@ -1,6 +1,5 @@
 fusker = require 'fusker'
 path = require 'path'
-logger = require './logger'
 npm = require './info/npm'
 node = require './info/node'
 processes = require './info/process'

@@ -1,3 +1,7 @@
+0.0.8 / September 17, 2011
+==================
+  * Dependency clean-up
+
 0.0.7 / September 13, 2011
 ==================
   * Optimize code
