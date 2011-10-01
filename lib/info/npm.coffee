@@ -13,14 +13,10 @@ module.exports =
       if err?
         callback {error: err}
       else
-        packs = []
-        lines = resp.split '\n'
+        lines = stdout.split '\n'
         for line in lines
-          if !line.startsWith(' ') and !line.startsWith('│ ')
-            pack = line.split(' ')[1]
-            if pack?
-              pack = pack.split '@'
-              name = pack[0]
-              version = pack[1]
-              packs.push {label: name + ' - ' + version, value: 'http://search.npmjs.org/#/' + name}
+          packageName = lines[i].match /^(├──|├─┬|└─┬|└──) (.+)$/
+          if packageName and packageName[2]
+            package = packageName[2].split '@'
+            packages.push {label: package[0], version: package[1], value: 'http://search.npmjs.org/#/' + package[0]}
         callback packs
