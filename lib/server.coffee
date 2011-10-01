@@ -24,6 +24,7 @@ module.exports =
 
       sys = ->
         module.exports.sendSystem socket
+        # setTimeout beat, 10000
 
       sys()
       beat()
