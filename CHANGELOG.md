@@ -1,3 +1,7 @@
+0.0.9 / October 1, 2011
+==================
+  * Performance boost
+
 0.0.8 / September 17, 2011
 ==================
   * Dependency clean-up
@@ -10,7 +14,7 @@
 ==================
   * Optimize NPM package listing
   * Change project ownership from Contra to Fractal
-  
+
 0.0.5 / September 3, 2011
 ==================
   * Accuracy fixes on a lot of the system stuff
@@ -36,3 +40,4 @@
   * Start of the project
   * API completed
   * Basic web output
+

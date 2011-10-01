@@ -1,12 +1,12 @@
 {
    "name":"nodeinfo",
    "description":"Displays NodeJS information",
-   "version":"0.0.8",
+   "version":"0.0.9",
    "homepage":"http://github.com/wearefractal/nodeinfo",
    "repository":"git://github.com/wearefractal/nodeinfo.git",
    "author":"Fractal <contact@wearefractal.com> (http://wearefractal.com/)",
    "main":"./lib/main.coffee",
-   
+
    "dependencies":{
       "coffee-script":"*",
       "protege":"*",
@@ -23,3 +23,4 @@
       }
    ]
 }
+
