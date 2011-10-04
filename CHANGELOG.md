@@ -1,3 +1,7 @@
+0.1.0 / October 3, 2011
+==================
+  * JS bug fix
+
 0.0.9 / October 1, 2011
 ==================
   * Performance boost

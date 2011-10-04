@@ -1,7 +1,7 @@
 {
    "name":"nodeinfo",
    "description":"Displays NodeJS information",
-   "version":"0.0.9",
+   "version":"0.1.0",
    "homepage":"http://github.com/wearefractal/nodeinfo",
    "repository":"git://github.com/wearefractal/nodeinfo.git",
    "author":"Fractal <contact@wearefractal.com> (http://wearefractal.com/)",
