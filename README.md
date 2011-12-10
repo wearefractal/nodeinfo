@@ -14,6 +14,8 @@ info = require('nodeinfo');
 info.broadcast(port);
 ```
 
+![pic](http://26.media.tumblr.com/tumblr_lrwcd4yKB61qgzcieo1_500.jpg)
+
 ## Library Usage
 
 ```
