@@ -18,7 +18,7 @@ module.exports =
         for line in lines
           packageName = line.match /^(├──|├─┬|└─┬|└──) (.+)$/
           if packageName and packageName[2]
-            package = packageName[2].split '@'
-            packages.push {label: package[0], version: package[1], value: 'http://search.npmjs.org/#/' + package[0]}
+            pkg = packageName[2].split '@'
+            packages.push {label: pkg[0], version: pkg[1], value: 'http://search.npmjs.org/#/' + pkg[0]}
         callback packages
 
